@@ -19,7 +19,7 @@ class Model():
         '''  Adjust parameters with training data.
         Xtrain is a matrix of frames (frames in lines, features/variables in columns)
         Ttrain is the optional time index. The index may not be continuous (e.g. jumps or resets)
-        Typically Xtrain has thousands of lines.''' 
+        Typically Xtrain has thousands of lines.'''
         vprint(self.verbose, "Model :: ========= Training model =========")
         start = time.time()
         # Do something
@@ -29,15 +29,15 @@ class Model():
     def adapt(self, Xadapt, Tadapt=[]):
         ''' Adjust parameters and hyper-paramaters with short-term adaptation data.
         Xadapt is a matrix of frames (frames in lines, features/variables in columns)
-        Tadapt is the optional time index. 
+        Tadapt is the optional time index.
         Typically the time index has no cuts/jumps and the number of frames is of
-        the order of 100.''' 
+        the order of 100.'''
         vprint(self.verbose, "Model :: ========= Adapting model =========")
         start = time.time()
         # Do something
         end = time.time()
         vprint(self.verbose, "[+] Success, model adapted in %5.2f sec" % (end - start))
-         
+
     def predict(self, Xtest, num_predicted_frames=8):
         ''' Make predictions of the next num_predicted_frames frames.
         For this example we predict persistence of the last frame.'''
@@ -47,18 +47,18 @@ class Model():
         end = time.time()
         vprint(self.verbose, "[+] Success, predictions made in %5.2f sec" % (end - start))
         return Ytest
-        
+
     def save(self, path=""):
         ''' Save model.'''
         if not path:
-    		path = self.model_dir
+            path = self.model_dir
         vprint(self.verbose, "Model :: ========= Saving model to " + path)
         pickle.dump(self, open(os.path.join(path, '_model.pickle'), "w"))
 
     def load(self, path=""):
         ''' Reload model.'''
         if not path:
-    		path = self.model_dir
+            path = self.model_dir
         vprint(self.verbose, "Model :: ========= Loading model from " + path)
         self = pickle.load(open(os.path.join(path, '_model.pickle'), "w"))
         return self

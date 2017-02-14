@@ -2,15 +2,15 @@
 
 # Main contributors: Arthur Pesah and Isabelle Guyon, August-October 2014
 
-# ALL INFORMATION, SOFTWARE, DOCUMENTATION, AND DATA ARE PROVIDED "AS-IS". 
+# ALL INFORMATION, SOFTWARE, DOCUMENTATION, AND DATA ARE PROVIDED "AS-IS".
 # ISABELLE GUYON, CHALEARN, AND/OR OTHER ORGANIZERS OR CODE AUTHORS DISCLAIM
 # ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 # WARRANTIES OF MERCHANTABILITY AND FITNESS FOR ANY PARTICULAR PURPOSE, AND THE
-# WARRANTY OF NON-INFRIGEMENT OF ANY THIRD PARTY'S INTELLECTUAL PROPERTY RIGHTS. 
-# IN NO EVENT SHALL ISABELLE GUYON AND/OR OTHER ORGANIZERS BE LIABLE FOR ANY SPECIAL, 
+# WARRANTY OF NON-INFRIGEMENT OF ANY THIRD PARTY'S INTELLECTUAL PROPERTY RIGHTS.
+# IN NO EVENT SHALL ISABELLE GUYON AND/OR OTHER ORGANIZERS BE LIABLE FOR ANY SPECIAL,
 # INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER ARISING OUT OF OR IN
-# CONNECTION WITH THE USE OR PERFORMANCE OF SOFTWARE, DOCUMENTS, MATERIALS, 
-# PUBLICATIONS, OR INFORMATION MADE AVAILABLE FOR THE CHALLENGE. 
+# CONNECTION WITH THE USE OR PERFORMANCE OF SOFTWARE, DOCUMENTS, MATERIALS,
+# PUBLICATIONS, OR INFORMATION MADE AVAILABLE FOR THE CHALLENGE.
 
 from __future__ import print_function
 from sys import getsizeof, stderr
@@ -24,7 +24,7 @@ except ImportError:
 import numpy as np
 import os
 import shutil
-from scipy.sparse import * # used in data_binary_sparse 
+from scipy.sparse import * # used in data_binary_sparse
 from zipfile import ZipFile, ZIP_DEFLATED
 from contextlib import closing
 from sys import version
@@ -38,15 +38,15 @@ import csv
 swrite = stderr.write
 
 if (os.name == "nt"):
-       filesep = '\\'
+    filesep = '\\'
 else:
-       filesep = '/'
-       
+    filesep = '/'
+
 def write_list(lst):
     ''' Write a list of items to stderr (for debug purposes)'''
     for item in lst:
-        swrite(item + "\n") 
-        
+        swrite(item + "\n")
+
 def print_dict(verbose, dct):
     ''' Write a dict to stderr (for debug purposes)'''
     if verbose:
@@ -57,7 +57,7 @@ def mkdir(d):
     ''' Create a new directory'''
     if not os.path.exists(d):
         os.makedirs(d)
-        
+
 def mvdir(source, dest):
     ''' Move a directory'''
     if os.path.exists(source):
@@ -67,23 +67,23 @@ def rmdir(d):
     ''' Remove an existingdirectory'''
     if os.path.exists(d):
         shutil.rmtree(d)
-        
+
 def vprint(mode, t):
     ''' Print to stdout, only if in verbose mode'''
     if(mode):
-            print(t) 
-        
+        print(t)
+
 # ================ Output prediction results and prepare code submission =================
-        
+
 def write(filename, predictions):
     ''' Write prediction scores in prescribed format'''
     with open(filename, "w") as output_file:
-		for row in predictions:
-			if type(row) is not np.ndarray and type(row) is not list:
-				row = [row]
-			for val in row:
-				output_file.write('{0:g} '.format(float(val)))
-			output_file.write('\n')
+        for row in predictions:
+            if type(row) is not np.ndarray and type(row) is not list:
+                row = [row]
+            for val in row:
+                output_file.write('{0:g} '.format(float(val)))
+            output_file.write('\n')
 
 def zipdir(archivename, basedir):
     '''Zip directory, from J.F. Sebastian http://stackoverflow.com/'''
@@ -96,15 +96,15 @@ def zipdir(archivename, basedir):
                     absfn = os.path.join(root, fn)
                     zfn = absfn[len(basedir)+len(os.sep):] #XXX: relative path
                     z.write(absfn, zfn)
-                    
+
 def zip_submission(archivename, basedir=""):
     '''Zip directory, from J.F. Sebastian http://stackoverflow.com/'''
     if not basedir: basedir = pwd()
     assert os.path.isdir(basedir)
     code_dir = os.path.join(basedir, 'sample_code')
     with closing(ZipFile(archivename, "w", ZIP_DEFLATED)) as z:
-    	files = ['predict.sh', 'predictSpatioTemporal.py']
-    	for fn in files:
+        files = ['predict.sh', 'predictSpatioTemporal.py']
+        for fn in files:
             absfn = os.path.join(basedir, fn)
             zfn = absfn[len(basedir)+len(os.sep):] #XXX: relative path
             z.write(absfn, zfn)
@@ -118,66 +118,66 @@ def zip_submission(archivename, basedir=""):
                     z.write(absfn, zfn)
 
 # ================ Display directory structure and code version (for debug purposes) =================
-      
+
 def show_dir(run_dir):
-	print('\n=== Listing run dir ===')
-	write_list(ls(run_dir))
-	write_list(ls(run_dir + '/*'))
-	write_list(ls(run_dir + '/*/*'))
-	write_list(ls(run_dir + '/*/*/*'))
-	write_list(ls(run_dir + '/*/*/*/*'))
-      
-def show_io(input_dir, output_dir):    
-	import yaml
-	swrite('\n=== DIRECTORIES ===\n\n')
-	# Show this directory
-	swrite("-- Current directory " + pwd() + ":\n")
-	write_list(ls('.'))
-	write_list(ls('./*'))
-	write_list(ls('./*/*'))
-	swrite("\n")
-	
-	# List input and output directories
-	swrite("-- Input directory " + input_dir + ":\n")
-	write_list(ls(input_dir))
-	write_list(ls(input_dir + '/*'))
-	write_list(ls(input_dir + '/*/*'))
-	write_list(ls(input_dir + '/*/*/*'))
-	swrite("\n")
-	swrite("-- Output directory  " + output_dir + ":\n")
-	write_list(ls(output_dir))
-	write_list(ls(output_dir + '/*'))
-	swrite("\n")
-        
+    print('\n=== Listing run dir ===')
+    write_list(ls(run_dir))
+    write_list(ls(run_dir + '/*'))
+    write_list(ls(run_dir + '/*/*'))
+    write_list(ls(run_dir + '/*/*/*'))
+    write_list(ls(run_dir + '/*/*/*/*'))
+
+def show_io(input_dir, output_dir):
+    import yaml
+    swrite('\n=== DIRECTORIES ===\n\n')
+    # Show this directory
+    swrite("-- Current directory " + pwd() + ":\n")
+    write_list(ls('.'))
+    write_list(ls('./*'))
+    write_list(ls('./*/*'))
+    swrite("\n")
+
+    # List input and output directories
+    swrite("-- Input directory " + input_dir + ":\n")
+    write_list(ls(input_dir))
+    write_list(ls(input_dir + '/*'))
+    write_list(ls(input_dir + '/*/*'))
+    write_list(ls(input_dir + '/*/*/*'))
+    swrite("\n")
+    swrite("-- Output directory  " + output_dir + ":\n")
+    write_list(ls(output_dir))
+    write_list(ls(output_dir + '/*'))
+    swrite("\n")
+
     # write meta data to sdterr
-	swrite('\n=== METADATA ===\n\n')
-	swrite("-- Current directory " + pwd() + ":\n")
-	try:
-		metadata = yaml.load(open('metadata', 'r'))
-		for key,value in metadata.items():
-			swrite(key + ': ')
-			swrite(str(value) + '\n')
-	except:
-		swrite("none\n");
-	swrite("-- Input directory " + input_dir + ":\n")
-	try:
-		metadata = yaml.load(open(os.path.join(input_dir, 'metadata'), 'r'))
-		for key,value in metadata.items():
-			swrite(key + ': ')
-			swrite(str(value) + '\n')
-		swrite("\n")
-	except:
-		swrite("none\n");
-	
+    swrite('\n=== METADATA ===\n\n')
+    swrite("-- Current directory " + pwd() + ":\n")
+    try:
+        metadata = yaml.load(open('metadata', 'r'))
+        for key,value in metadata.items():
+            swrite(key + ': ')
+            swrite(str(value) + '\n')
+    except:
+        swrite("none\n");
+    swrite("-- Input directory " + input_dir + ":\n")
+    try:
+        metadata = yaml.load(open(os.path.join(input_dir, 'metadata'), 'r'))
+        for key,value in metadata.items():
+            swrite(key + ': ')
+            swrite(str(value) + '\n')
+        swrite("\n")
+    except:
+        swrite("none\n");
+
 def show_version():
-	# Python version and library versions
-	swrite('\n=== VERSIONS ===\n\n')
-	# Python version
-	swrite("Python version: " + version + "\n\n")
-	# Give information on the version installed
-	swrite("Versions of libraries installed:\n")
-	map(swrite, sorted(["%s==%s\n" % (i.key, i.version) for i in lib()]))
- 
+    # Python version and library versions
+    swrite('\n=== VERSIONS ===\n\n')
+    # Python version
+    swrite("Python version: " + version + "\n\n")
+    # Give information on the version installed
+    swrite("Versions of libraries installed:\n")
+    map(swrite, sorted(["%s==%s\n" % (i.key, i.version) for i in lib()]))
+
  # Compute the total memory size of an object in bytes
 
 def total_size(o, handlers={}, verbose=False):
