@@ -29,6 +29,7 @@ from pip import get_installed_distributions as lib
 from glob import glob
 import platform
 import psutil
+import functools
 
 if (os.name == "nt"):
     filesep = '\\'
@@ -147,7 +148,7 @@ def mvmean(R, axis=0):
     Computes the mean along the given axis, except if this is a vector, in which case the mean is returned.
     Does NOT flatten.'''
     if len(R.shape)==0: return R
-    average = lambda x: reduce(lambda i, j: (0, (j[0]/(j[0]+1.))*i[1]+(1./(j[0]+1))*j[1]), enumerate(x))[1]
+    average = lambda x: functools.reduce(lambda i, j: (0, (j[0]/(j[0]+1.))*i[1]+(1./(j[0]+1))*j[1]), enumerate(x))[1]
     R=np.array(R)
     if len(R.shape)==1: return average(R)
     if axis==1:

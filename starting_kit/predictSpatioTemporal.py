@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Usage: python predictSpatioTemporal.py step_num input_dir output_dir code_dir
 
