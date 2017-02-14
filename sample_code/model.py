@@ -43,7 +43,7 @@ class Model():
         For this example we predict persistence of the last frame.'''
         vprint(self.verbose, "Model :: ========= Making predictions =========")
         start = time.time()
-        Ytest = np.array([Xtest[-1]] * num_predicted_frames)
+        Ytest = np.array([np.average(Xtest[-8:], axis=0)] * num_predicted_frames)
         end = time.time()
         vprint(self.verbose, "[+] Success, predictions made in %5.2f sec" % (end - start))
         return Ytest
