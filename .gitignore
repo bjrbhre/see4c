@@ -1,0 +1,11 @@
+# ipython / jupyter
+__pycache__
+.ipynb_checkpoints
+
+# MacOS artifacts
+__MACOSX
+.DS_Store
+
+# computation artifacts
+cache
+results
