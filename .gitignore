@@ -1,6 +1,7 @@
 # ipython / jupyter
 __pycache__
 .ipynb_checkpoints
+src
 
 # MacOS artifacts
 __MACOSX
@@ -10,3 +11,4 @@ __MACOSX
 cache
 results
 submissions
+tmp

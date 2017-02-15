@@ -1,2 +1,3 @@
 h5py
 psutil
+-e git+https://github.com/jakevdp/JSAnimation.git#egg=JSAnimation
